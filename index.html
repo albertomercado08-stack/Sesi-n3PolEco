@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instrumentos de la Política Económica Boliviana | Módulo 2</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdfbf7; /* Fondo pastel muy suave */
+            color: #334155;
+        }
+        
+        /* Ocultamos el cursor normal en la zona de presentación para lucir el láser */
+        .presentation-zone {
+            cursor: none !important;
+        }
+
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Animaciones de Diapositivas */
+        .slide {
+            display: none;
+            opacity: 0;
+            transform: scale(0.98) translateY(15px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
+        /* Scrollbar estilizado pastel */
+        .slide-scroll::-webkit-scrollbar { width: 6px; }
+        .slide-scroll::-webkit-scrollbar-track { background: transparent; }
+        .slide-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .slide-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Efectos visuales de Puntero Láser */
+        #laser-pointer {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444; /* red-500 */
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 12px 4px rgba(239, 68, 68, 0.7), 0 0 25px 10px rgba(239, 68, 68, 0.4);
+            transition: opacity 0.15s ease;
+            opacity: 0; /* Oculto inicialmente hasta mover el mouse */
+        }
+
+        /* Degradados institucionales pasteles */
+        .pastel-gradient-text {
+            background: linear-gradient(135deg, #0d9488 0%, #7e22ce 50%, #be185d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Cajas de Artículos (Verbatim) */
+        .article-box {
+            background: #ffffff;
+            border-left: 6px solid #0d9488; /* Teal-600 */
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.1);
+            position: relative;
+            border-radius: 0.5rem;
+        }
+        .article-box-alt {
+            border-left: 6px solid #9333ea; /* Purple-600 */
+            box-shadow: 0 4px 6px -1px rgba(147, 51, 234, 0.1);
+        }
+        .article-quote {
+            font-family: 'Playfair Display', serif;
+            color: #1e293b;
+        }
+
+        /* Cuadros Giratorios (Flip cards) adaptados a tonos pastel */
+        .flip-card { background-color: transparent; perspective: 1000px; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.7s; transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 0.75rem; box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.05); }
+        .flip-card-front { background-color: #ffffff; border: 1px solid #f1f5f9; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; }
+        
+        /* Fondos para las caras traseras */
+        .bg-back-teal { background-color: #f0fdfa; border: 2px solid #0d9488; color: #115e59; }
+        .bg-back-purple { background-color: #faf5ff; border: 2px solid #9333ea; color: #581c87; }
+        .bg-back-rose { background-color: #fff1f2; border: 2px solid #e11d48; color: #881337; }
+        
+        .flip-card-back { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: left; }
+
+        .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="h-full w-full overflow-hidden flex flex-col select-none">
+
+    <!-- Puntero Láser -->
+    <div id="laser-pointer"></div>
+
+    <!-- Barra de progreso -->
+    <div class="w-full bg-slate-100 h-1.5 fixed top-0 left-0 z-50">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-teal-400 via-purple-500 to-rose-500 transition-all duration-300 w-0"></div>
+    </div>
+
+    <!-- Barra Superior -->
+    <header class="w-full h-14 bg-white border-b border-slate-200 px-4 md:px-8 flex items-center justify-between z-40 shrink-0 shadow-sm relative">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-teal-600 flex items-center justify-center text-white shadow-sm">
+                <i data-lucide="wrench" class="w-4 h-4"></i>
+            </div>
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-800 block font-serif-title">Módulo 2: Política Económica</span>
+                <span class="text-[11px] text-slate-500 hidden sm:inline">Maestría en Administración y Gestión Pública</span>
+            </div>
+        </div>
+        <div id="top-slide-title" class="hidden lg:block text-[11px] text-slate-600 font-semibold px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 truncate max-w-lg"></div>
+        <div class="flex items-center gap-2">
+            <span id="slide-counter" class="text-xs font-bold text-slate-500 mr-2">1 / X</span>
+            <button onclick="toggleFullscreen()" title="Pantalla Completa" class="p-2 text-slate-600 hover:text-teal-700 hover:bg-slate-100 rounded transition-colors">
+                <i data-lucide="maximize" class="w-4 h-4" id="fullscreen-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Zona de Presentación -->
+    <main class="flex-1 relative w-full h-[calc(100vh-7rem)] overflow-hidden bg-[#fdfbf7] presentation-zone" id="presentation-stage">
+        
+        <!-- DIAPOSITIVA 0: CARÁTULA -->
+        <section class="slide active flex-col items-center justify-center h-full p-6 text-center relative" data-title="Carátula">
+            <div class="absolute inset-0 bg-gradient-to-br from-teal-50/50 via-purple-50/30 to-rose-50/50 pointer-events-none"></div>
+            <div class="max-w-4xl mx-auto z-10 flex flex-col items-center my-auto relative">
+                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-teal-200 bg-teal-50 text-teal-800 text-xs tracking-widest uppercase mb-8 font-semibold">
+                    <i data-lucide="calendar" class="w-4 h-4 text-teal-600"></i>
+                    3ra. Sesión
+                </div>
+                
+                <h2 class="text-xl sm:text-2xl font-bold tracking-widest text-slate-500 uppercase mb-3 font-serif-title">
+                    Los Instrumentos de la Política Económica Boliviana
+                </h2>
+
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight font-serif-title mb-6 leading-tight pastel-gradient-text">
+                    El presupuesto, los impuestos y la moneda
+                </h1>
+                
+                <p class="text-slate-600 text-base md:text-lg max-w-3xl mx-auto font-serif-title italic mb-8 border-t border-b border-slate-200 py-4">
+                    «Cómo actúa el Estado sobre la economía»
+                </p>
+
+                <div class="bg-white/80 backdrop-blur border border-slate-200 rounded-xl p-4 shadow-sm w-full max-w-md mx-auto">
+                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">Material de exposición docente</p>
+                    <p class="text-sm font-bold text-slate-800">Noviembre de 2026</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 1: INTRODUCCIÓN -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="Introducción">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">Introducción: De los Fines a las Herramientas</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2">
+                <div class="flex flex-col lg:flex-row gap-6 items-stretch h-full pb-4">
+                    <div class="flex-1 bg-white p-6 rounded-xl border border-teal-100 shadow-sm flex flex-col justify-center">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-teal-50 rounded-full shrink-0">
+                                <i data-lucide="target" class="w-6 h-6 text-teal-600"></i>
+                            </div>
+                            <h3 class="font-bold text-slate-800 text-lg">La pregunta práctica</h3>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Ya sabemos que el Estado persigue objetivos (estabilidad, empleo, crecimiento) y que la Constitución le asigna amplias funciones. Hoy respondemos: <strong>¿Con qué herramientas cuenta el Estado para alcanzar esos objetivos?</strong>
+                        </p>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded text-sm text-indigo-900 mt-6">
+                            <i data-lucide="info" class="w-4 h-4 inline mr-1"></i>
+                            <strong>Método:</strong> Analizaremos artículos constitucionales y normas conexas (Ley 843, Ley 154, CT, Ley 1670 BCB), descomponiendo sus elementos.
+                        </div>
+                    </div>
+
+                    <div class="flex-[1.5] grid grid-cols-1 sm:grid-cols-3 gap-4 content-center">
+                        <div class="bg-white border-t-4 border-teal-500 p-5 rounded-xl shadow-sm hover-lift flex flex-col justify-center">
+                            <div class="flex justify-center mb-3"><i data-lucide="file-spreadsheet" class="w-8 h-8 text-teal-500"></i></div>
+                            <h4 class="font-bold text-center text-slate-800 mb-2">El Presupuesto</h4>
+                            <p class="text-xs text-slate-600 text-center">El instrumento cotidiano de toda la administración pública. Ordena y autoriza el gasto.</p>
+                        </div>
+                        <div class="bg-white border-t-4 border-purple-500 p-5 rounded-xl shadow-sm hover-lift flex flex-col justify-center">
+                            <div class="flex justify-center mb-3"><i data-lucide="landmark" class="w-8 h-8 text-purple-500"></i></div>
+                            <h4 class="font-bold text-center text-slate-800 mb-2">Los Impuestos</h4>
+                            <p class="text-xs text-slate-600 text-center">La fuente principal de los recursos que el presupuesto distribuye.</p>
+                        </div>
+                        <div class="bg-white border-t-4 border-rose-500 p-5 rounded-xl shadow-sm hover-lift flex flex-col justify-center">
+                            <div class="flex justify-center mb-3"><i data-lucide="coins" class="w-8 h-8 text-rose-500"></i></div>
+                            <h4 class="font-bold text-center text-slate-800 mb-2">La Moneda</h4>
+                            <p class="text-xs text-slate-600 text-center">A cargo del BCB. El medio en el que se expresan precios, salarios y ahorros.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 2: 1. ¿CON QUÉ ACTÚA EL ESTADO? -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="1. ¿Con qué actúa el Estado?">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 1</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">1. ¿Con qué actúa el Estado? Los instrumentos de la política económica en Bolivia</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2">
+                <div class="flex flex-col md:flex-row gap-6 mb-6">
+                    <div class="flex-1 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <h3 class="font-bold text-slate-800 mb-2 text-sm">Objetivo vs. Instrumento</h3>
+                        <p class="text-xs text-slate-600 mb-2">
+                            <strong>Objetivo:</strong> Resultado deseado que no se puede ordenar por decreto (ej. que baje la inflación).<br>
+                            <strong>Instrumento:</strong> Palanca (variable) que la autoridad decide directamente (ej. monto de gasto público, tasa de impuesto).
+                        </p>
+                        <p class="text-[11px] text-teal-700 font-bold bg-teal-50 p-2 rounded">Pregunta detonante: ¿Qué herramientas tiene el Estado para influir en la economía del país?</p>
+                    </div>
+                    <div class="flex-1 bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <h3 class="font-bold text-slate-800 mb-2 text-sm">Familias de Instrumentos</h3>
+                        <ul class="text-xs text-slate-600 space-y-1">
+                            <li><i data-lucide="check-circle" class="w-3 h-3 inline text-teal-500"></i> <strong>Fiscales:</strong> Ingresos (impuestos) y gastos (presupuesto).</li>
+                            <li><i data-lucide="check-circle" class="w-3 h-3 inline text-purple-500"></i> <strong>Monetarios:</strong> Cantidad de dinero, crédito, tasas (BCB).</li>
+                            <li><i data-lucide="check-circle" class="w-3 h-3 inline text-rose-500"></i> <strong>Cambiarios:</strong> Precio del dólar, comercio exterior.</li>
+                            <li><i data-lucide="check-circle" class="w-3 h-3 inline text-amber-500"></i> <strong>Regulación Directa:</strong> Fijación de precios, normas de mercado.</li>
+                            <li><i data-lucide="check-circle" class="w-3 h-3 inline text-indigo-500"></i> <strong>De Rentas:</strong> Salario mínimo.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="font-bold text-slate-800 text-sm mb-4 border-b border-slate-200 pb-1">Los responsables de la Política Económica en Bolivia</h3>
+                
+                <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
+                    <!-- Cards Ecosistema -->
+                    <div class="bg-white border border-teal-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-teal-800 text-xs mb-1">Presupuesto General (PGE)</h4>
+                            <p class="text-[10px] text-slate-600 mb-2">Elabora el Ejecutivo (MEFP), aprueba la ALP.</p>
+                        </div>
+                        <span class="text-[9px] bg-teal-50 px-2 py-1 rounded text-teal-700 text-center mt-auto">CPE Arts. 158 y 321 / Ley 1178</span>
+                    </div>
+
+                    <div class="bg-white border border-purple-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-purple-800 text-xs mb-1">Impuestos Nacionales</h4>
+                            <p class="text-[10px] text-slate-600 mb-2">Crea la ALP a iniciativa del Ejecutivo. Administra SIN.</p>
+                        </div>
+                        <span class="text-[9px] bg-purple-50 px-2 py-1 rounded text-purple-700 text-center mt-auto">CPE Arts. 158 y 323 / Ley 843</span>
+                    </div>
+
+                    <div class="bg-white border border-rose-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-rose-800 text-xs mb-1">Impuestos Subnacionales</h4>
+                            <p class="text-[10px] text-slate-600 mb-2">Aprueban Asambleas Deptales. y Concejos Municipales.</p>
+                        </div>
+                        <span class="text-[9px] bg-rose-50 px-2 py-1 rounded text-rose-700 text-center mt-auto">CPE Arts. 300, 302 / Ley 154</span>
+                    </div>
+
+                    <div class="bg-white border border-indigo-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-indigo-800 text-xs mb-1">Deuda Pública</h4>
+                            <p class="text-[10px] text-slate-600 mb-2">Contrata Ejecutivo con autorización de ALP.</p>
+                        </div>
+                        <span class="text-[9px] bg-indigo-50 px-2 py-1 rounded text-indigo-700 text-center mt-auto">CPE Arts. 158 y 322</span>
+                    </div>
+
+                    <div class="bg-white border border-amber-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-between col-span-2 lg:col-span-1">
+                        <div>
+                            <h4 class="font-bold text-amber-800 text-xs mb-1">Política Monetaria</h4>
+                            <p class="text-[10px] text-slate-600 mb-2">Determina y ejecuta BCB, coordinado con Ejecutivo.</p>
+                        </div>
+                        <span class="text-[9px] bg-amber-50 px-2 py-1 rounded text-amber-700 text-center mt-auto">CPE Arts. 326 a 328 / Ley 1670</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded text-[11px] text-slate-700 text-center">
+                    <strong>Separación y Control:</strong> Ningún instrumento está en manos de un solo actor. Esto evita el uso irresponsable simultáneo. Además, los instrumentos <em>se expresan en normas jurídicas</em>, por tanto, la gestión pública aplica política económica a diario.
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 3: 2. EL PRESUPUESTO (ART 158) -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="2. El presupuesto (Art. 158)">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 2</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">2. El presupuesto: la herramienta que ordena el gasto del Estado</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2">
+                <div class="bg-teal-50 p-3 rounded-lg border border-teal-100 mb-4 text-center">
+                    <p class="text-xs text-teal-800 font-bold">Pregunta detonante: ¿Puede una entidad pública gastar dinero que no está previsto en su presupuesto?</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start h-full pb-4">
+                    <!-- Artículos Textuales -->
+                    <div class="article-box p-5 lg:col-span-1 flex flex-col h-full justify-center">
+                        <div class="flex items-center gap-2 mb-3 text-teal-700">
+                            <i data-lucide="scroll-text" class="w-5 h-5"></i>
+                            <span class="font-bold text-xs uppercase tracking-wider">Artículo 158 (CPE)</span>
+                        </div>
+                        <p class="article-quote text-sm leading-relaxed mb-2">
+                            "I. Son atribuciones de la Asamblea Legislativa Plurinacional (...)<br><br>
+                            8. Aprobar leyes en materia de presupuestos, endeudamiento, control y fiscalización de recursos estatales de crédito público y subvenciones...<br><br>
+                            11. Aprobar el Presupuesto General del Estado presentado por el Órgano Ejecutivo. Recibido el proyecto de ley, éste deberá ser considerado en la Asamblea Legislativa Plurinacional dentro del término de sesenta días. En caso de no ser aprobado en este plazo, el proyecto se dará por aprobado."
+                        </p>
+                    </div>
+
+                    <!-- Cuadros Giratorios de Descomposición -->
+                    <div class="lg:col-span-2 flex flex-col justify-center">
+                        <h3 class="font-bold text-slate-800 text-sm mb-3">Descomposición del Art. 158 (Numerales 8 y 11)</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4 class="font-bold text-teal-700 text-sm">Numeral 8</h4>
+                                        <p class="text-[10px] text-slate-500 mt-1">Leyes de presupuesto, deuda y subvenciones</p>
+                                    </div>
+                                    <div class="flip-card-back bg-back-teal">
+                                        <h5 class="font-bold text-xs border-b border-teal-300 pb-1 mb-1 w-full text-center">Gestión Pública</h5>
+                                        <p class="text-[11px]">Las subvenciones y endeudamiento requieren <strong>respaldo en ley</strong>, no solo en decisión administrativa.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4 class="font-bold text-purple-700 text-sm">Num. 11 (1ra Parte)</h4>
+                                        <p class="text-[10px] text-slate-500 mt-1">Aprobación del PGE presentado por Ejecutivo</p>
+                                    </div>
+                                    <div class="flip-card-back bg-back-purple">
+                                        <h5 class="font-bold text-xs border-b border-purple-300 pb-1 mb-1 w-full text-center">Naturaleza Mixta</h5>
+                                        <p class="text-[11px]">Nace de una <strong>propuesta técnica</strong> (Ejecutivo) y una <strong>decisión política</strong> (Asamblea Legislativa).</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card h-32">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4 class="font-bold text-rose-700 text-sm">Num. 11 (2da Parte)</h4>
+                                        <p class="text-[10px] text-slate-500 mt-1">Plazo de 60 días y aprobación tácita</p>
+                                    </div>
+                                    <div class="flip-card-back bg-back-rose">
+                                        <h5 class="font-bold text-xs border-b border-rose-300 pb-1 mb-1 w-full text-center">Garantía Operativa</h5>
+                                        <p class="text-[11px]">Evita que el Estado <strong>se quede sin PGE</strong> por falta de acuerdo político. Pasado el plazo, se aprueba.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 4: 2. CONTEXTO PGE 2026 -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="2. El presupuesto en la práctica (2026)">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 2</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">El Presupuesto como Expresión de Prioridades (2026)</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2 pb-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full items-stretch">
+                    <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col justify-center">
+                        <h3 class="font-bold text-slate-800 text-sm mb-4 border-b border-slate-100 pb-2">Contexto PGE 2026</h3>
+                        <ul class="space-y-4 text-xs text-slate-700">
+                            <li class="flex gap-3 items-start">
+                                <div class="p-2 bg-teal-50 rounded-lg shrink-0 mt-0.5"><i data-lucide="calendar-check" class="w-4 h-4 text-teal-600"></i></div>
+                                <div><strong class="block mb-1">Ley 1705 (Diciembre 2025):</strong> Aprueba PGE y autoriza operaciones de endeudamiento externo de apoyo presupuestario.</div>
+                            </li>
+                            <li class="flex gap-3 items-start">
+                                <div class="p-2 bg-purple-50 rounded-lg shrink-0 mt-0.5"><i data-lucide="edit-3" class="w-4 h-4 text-purple-600"></i></div>
+                                <div><strong class="block mb-1">Ley 1755 (Julio 2026) - PGE Reformulado:</strong> Modificación sustancial. Buscó reducir déficit fiscal de 61.000 MM a 41.000 MM de Bs.<br>
+                                <em class="mt-1 block text-slate-500">Acciones: Recorte de gasto corriente no esencial y aportes de capital a empresas públicas. Creación de ítems para salud y educación. Exenciones tributarias.</em></div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="grid grid-rows-2 gap-4">
+                        <div class="bg-teal-50 border border-teal-200 p-5 rounded-xl flex flex-col justify-center">
+                            <h4 class="font-bold text-teal-800 text-sm mb-2 flex items-center gap-2"><i data-lucide="building" class="w-4 h-4"></i> Impacto en Entidades Públicas</h4>
+                            <p class="text-xs text-teal-900 leading-relaxed">
+                                El presupuesto institucional se integra al PGE (Ley 2042 y SAFCO). Ningún pago o contratación puede realizarse sin disponibilidad presupuestaria. Si el PGE se modifica, <strong>los POA de cada entidad deben ajustarse</strong>.
+                            </p>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 p-5 rounded-xl flex flex-col justify-center">
+                            <h4 class="font-bold text-rose-800 text-sm mb-2 flex items-center gap-2"><i data-lucide="lightbulb" class="w-4 h-4"></i> Reflexión Estratégica (Art. 321 CPE)</h4>
+                            <p class="text-xs text-rose-900 leading-relaxed">
+                                Un presupuesto es una decisión sobre recursos escasos. CPE manda priorizar educación, salud, alimentación, vivienda y producción. Todo proyecto de ley de gasto debe indicar su fuente (Responsabilidad fiscal).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 5: 3. IMPUESTOS (ARTS 108 y 323) -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="3. Los impuestos (Arts. 108 y 323)">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 3</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">3. Los impuestos: de dónde obtiene el Estado sus recursos</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2">
+                <div class="bg-purple-50 p-3 rounded-lg border border-purple-100 mb-4 text-center">
+                    <p class="text-xs text-purple-800 font-bold">Pregunta detonante: ¿Por qué pagamos impuestos y quién decide cuánto debemos pagar?</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                    
+                    <!-- Deber Tributario -->
+                    <div class="lg:col-span-2 space-y-4">
+                        <div class="article-box article-box-alt p-4">
+                            <div class="flex items-center gap-2 mb-2 text-purple-700">
+                                <i data-lucide="book-check" class="w-4 h-4"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">Art. 108 (CPE) Deberes</span>
+                            </div>
+                            <p class="article-quote text-sm leading-relaxed mb-2">
+                                "Son deberes (...)<br>7. Tributar en proporción a su capacidad económica, conforme con la ley."
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white border border-slate-200 rounded p-4 shadow-sm text-xs text-slate-700">
+                            <strong>1. Deber fundamental.</strong><br>
+                            <strong>2. Medida:</strong> Capacidad económica (aportar según lo que se tiene/gana).<br>
+                            <strong>3. Reserva de Ley:</strong> "Conforme con la ley". Solo una Ley crea impuestos, no decretos ni ordenanzas.
+                        </div>
+                    </div>
+
+                    <!-- Art 323 Política Fiscal -->
+                    <div class="lg:col-span-3">
+                        <div class="article-box p-4 h-full">
+                            <div class="flex items-center gap-2 mb-2 text-teal-700">
+                                <i data-lucide="landmark" class="w-4 h-4"></i>
+                                <span class="font-bold text-xs uppercase tracking-wider">Art. 323 (CPE) Política Fiscal</span>
+                            </div>
+                            <p class="article-quote text-xs leading-relaxed">
+                                "I. La política fiscal se basa en los principios de capacidad económica, igualdad, progresividad, proporcionalidad, transparencia, universalidad, control, sencillez administrativa y capacidad recaudatoria.<br><br>
+                                II. Los impuestos nacionales serán aprobados por la Asamblea... Los exclusivos de autonomías, por sus Concejos o Asambleas...<br><br>
+                                III. La ALP mediante ley, clasificará y definirá los impuestos de dominio nacional, departamental y municipal.<br><br>
+                                IV. Límites a gobiernos autónomos: 1. No crear hechos imponibles análogos. 2. No gravar fuera de su jurisdicción. 3. No obstaculizar libre circulación. 4. No generar privilegios para residentes discriminando a no residentes."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 6: 3. DESCOMPOSICIÓN Y CONTEXTO IMPUESTOS -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="3. Análisis de Política Tributaria">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 3</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">Análisis Tributario: Principios, Clasificación y Contexto</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2 pb-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full items-stretch">
+                    
+                    <!-- Columna Izquierda: Principios e Impuestos -->
+                    <div class="flex flex-col gap-4 justify-between h-full">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-center">
+                                <h4 class="font-bold text-slate-800 text-xs mb-2 border-b border-slate-100 pb-1">Tensión de Principios (323.I)</h4>
+                                <p class="text-[10px] text-slate-600 mb-1"><strong>Progresividad vs. Regresividad:</strong> Quien tiene más, paga más. En Bolivia, el mayor recaudo es el IVA (grava consumo igual a todos).</p>
+                                <p class="text-[10px] text-slate-600"><strong>Capacidad Recaudatoria vs. Sencillez:</strong> Impuesto complejo invita a evasión, siendo injusto.</p>
+                            </div>
+                            
+                            <div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm hover-lift flex flex-col justify-center">
+                                <h4 class="font-bold text-slate-800 text-xs mb-2 border-b border-slate-100 pb-1">Clasificación Subnacional (323.III)</h4>
+                                <p class="text-[10px] text-slate-600 mb-1"><strong>Ley 154:</strong> Define qué crea cada nivel. Municipios: Inmuebles, Vehículos y transferencias.</p>
+                                <p class="text-[10px] text-rose-700 bg-rose-50 p-1.5 rounded">Límites: Prohibida doble tributación y trabas al comercio interno.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                            <h4 class="font-bold text-slate-800 text-sm mb-3">Principales Impuestos Nacionales (Ley 843 / SIN)</h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <div class="bg-teal-50 border border-teal-200 p-2 rounded-lg text-center flex flex-col justify-center">
+                                    <span class="font-bold text-teal-900 block text-[11px]">IVA (13%)</span>
+                                    <span class="text-[9px] text-teal-700">Ventas, obras, importaciones.</span>
+                                </div>
+                                <div class="bg-purple-50 border border-purple-200 p-2 rounded-lg text-center flex flex-col justify-center">
+                                    <span class="font-bold text-purple-900 block text-[11px]">RC-IVA (13%)</span>
+                                    <span class="text-[9px] text-purple-700">Ingresos personas (sueldos).</span>
+                                </div>
+                                <div class="bg-amber-50 border border-amber-200 p-2 rounded-lg text-center flex flex-col justify-center">
+                                    <span class="font-bold text-amber-900 block text-[11px]">IUE (25%)</span>
+                                    <span class="text-[9px] text-amber-700">Utilidades de empresas/prof.</span>
+                                </div>
+                                <div class="bg-rose-50 border border-rose-200 p-2 rounded-lg text-center flex flex-col justify-center">
+                                    <span class="font-bold text-rose-900 block text-[11px]">IT (3%)</span>
+                                    <span class="text-[9px] text-rose-700">Ingresos brutos lucros.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Contexto -->
+                    <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-xl flex flex-col justify-center h-full">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="p-2 bg-indigo-100 rounded-full"><i data-lucide="scale" class="w-5 h-5 text-indigo-700"></i></div>
+                            <h4 class="font-bold text-indigo-900 text-sm">Contexto Tributario 2026 y Debate</h4>
+                        </div>
+                        <ul class="text-xs text-indigo-900 space-y-4">
+                            <li><strong>Ley 1717 (Abr 2026):</strong> Elimina ITF, restituye 100% crédito IVA en combustibles.</li>
+                            <li><strong>Ley 1733 (May 2026):</strong> Condonación deudas antiguas, IVA por fuera (sobre precio neto).</li>
+                            <li class="bg-white/60 p-3 rounded border border-indigo-100">
+                                <strong>El Debate:</strong><br>
+                                <span class="text-emerald-700">Defensores</span> ven sencillez y alivio económico.<br>
+                                <span class="text-rose-700">Críticos</span> ven premio al incumplidor y pérdida de progresividad.
+                            </li>
+                            <li class="font-bold bg-indigo-800 text-white p-3 rounded">
+                                Problema Estructural: LA INFORMALIDAD.<br>
+                                <span class="font-normal text-[11px]">Recarga a pocos y viola la <em>universalidad</em> (Art. 325 exige penar evasión).</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 7: 4. LA MONEDA (ART 328) -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="4. La moneda (Art. 328)">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 4</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">4. La moneda: el Banco Central de Bolivia</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2">
+                <div class="bg-rose-50 p-3 rounded-lg border border-rose-200 mb-4 text-center">
+                    <p class="text-xs text-rose-800 font-bold">Pregunta detonante: ¿Quién se encarga de cuidar el valor del dinero que tenemos en el bolsillo?</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
+                    
+                    <!-- Verbatim -->
+                    <div class="article-box p-5 h-fit">
+                        <div class="flex items-center gap-2 mb-3 text-teal-700">
+                            <i data-lucide="coins" class="w-5 h-5"></i>
+                            <span class="font-bold text-xs uppercase tracking-wider">Artículo 328 (CPE)</span>
+                        </div>
+                        <p class="article-quote text-sm leading-relaxed">
+                            "I. Son atribuciones del Banco Central de Bolivia, en coordinación con la política económica determinada por el Órgano Ejecutivo, además de las señaladas por la ley:<br><br>
+                            1. Determinar y ejecutar la política monetaria.<br>
+                            2. Ejecutar la política cambiaria.<br>
+                            3. Regular el sistema de pagos.<br>
+                            4. Autorizar la emisión de la moneda.<br>
+                            5. Administrar las reservas internacionales."
+                        </p>
+                        
+                        <div class="mt-4 pt-3 border-t border-slate-200 text-xs text-slate-600">
+                            <strong>Nota Institucional (Art 329):</strong> Directorio designado por el Presidente desde ternas de la ALP (5 años). Modelo intermedio entre plena independencia y subordinación.
+                        </div>
+                    </div>
+
+                    <!-- Ecosistema BCB -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <h3 class="font-bold text-slate-800 text-sm mb-4 border-b border-slate-100 pb-2">Descomposición Funcional del BCB</h3>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3 p-2 hover:bg-slate-50 rounded">
+                                <div class="bg-teal-100 p-2 rounded text-teal-700 shrink-0"><i data-lucide="bar-chart" class="w-4 h-4"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">1. Política Monetaria</h4>
+                                    <p class="text-[10px] text-slate-600">Decide cuánto dinero circula y condiciones. (Programa Monetario anual).</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2 hover:bg-slate-50 rounded">
+                                <div class="bg-purple-100 p-2 rounded text-purple-700 shrink-0"><i data-lucide="refresh-ccw" class="w-4 h-4"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">2. Política Cambiaria</h4>
+                                    <p class="text-[10px] text-slate-600">Aplica el régimen del dólar definido por el Ejecutivo (Ej. Régimen flexible desde Junio 2026).</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2 hover:bg-slate-50 rounded">
+                                <div class="bg-amber-100 p-2 rounded text-amber-700 shrink-0"><i data-lucide="smartphone-nfc" class="w-4 h-4"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">3. Sistema de Pagos</h4>
+                                    <p class="text-[10px] text-slate-600">Ordena medios de circulación (Transferencias electrónicas, pagos QR).</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2 hover:bg-slate-50 rounded">
+                                <div class="bg-rose-100 p-2 rounded text-rose-700 shrink-0"><i data-lucide="banknote" class="w-4 h-4"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">4 & 5. Emisión y Reservas</h4>
+                                    <p class="text-[10px] text-slate-600">Único emisor legal de billetes/monedas. Custodio de divisas y oro nacional.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- DIAPOSITIVA 8: 4. HERRAMIENTAS Y CRUCE FISCAL-MONETARIO -->
+        <section class="slide flex-col h-full p-4 md:p-8 max-w-6xl mx-auto" data-title="4. Herramientas del BCB y Cruce de Políticas">
+            <div class="flex flex-col mb-4 shrink-0 border-b-2 border-teal-600 pb-2">
+                <span class="text-rose-600 font-bold text-[10px] uppercase tracking-wider mb-1">Sección 4</span>
+                <h2 class="text-xl md:text-2xl font-bold text-teal-900 font-serif-title">Herramientas del BCB y Cruce Fiscal-Monetario</h2>
+            </div>
+            
+            <div class="slide-scroll flex-1 overflow-y-auto pr-2 pb-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full items-stretch">
+                    
+                    <div class="flex flex-col justify-between gap-4">
+                        <div class="glass-panel p-6 rounded-xl border-l-4 border-teal-500 bg-white shadow-sm flex-1 flex flex-col justify-center">
+                            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4 text-teal-600"></i> Herramientas de Ley 1670</h4>
+                            <ul class="text-xs text-slate-600 space-y-3">
+                                <li class="bg-slate-50 p-2 rounded border border-slate-100"><strong>OMA (Art. 6):</strong> Operaciones de Mercado Abierto. Vende títulos para retirar dinero (secar plaza) o compra para inyectar.</li>
+                                <li class="bg-slate-50 p-2 rounded border border-slate-100"><strong>Encaje Legal (Art. 7):</strong> Porcentaje de depósitos que bancos no pueden prestar. Si sube, hay menos dinero circulando.</li>
+                            </ul>
+                        </div>
+
+                        <div class="glass-panel p-6 rounded-xl border-l-4 border-purple-500 bg-white shadow-sm flex-1 flex flex-col justify-center">
+                            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2"><i data-lucide="wallet" class="w-4 h-4 text-purple-600"></i> La Bolivianización (Art 326.II CPE)</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                "Transacciones públicas en M/N". Permitió fortalecer el impacto del BCB. Desafío 2026: mantener confianza en bolivianos tras escasez de divisas y tipo de cambio flexible.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Cruce Fiscal-Monetario (Clímax de la sesión) -->
+                    <div class="flex flex-col justify-between">
+                        <div class="flex-1 bg-rose-50 border border-rose-200 p-6 rounded-2xl shadow-sm relative overflow-hidden flex flex-col justify-center">
+                            <div class="absolute -right-4 -bottom-4 opacity-10 pointer-events-none"><i data-lucide="alert-octagon" class="w-48 h-48 text-rose-900"></i></div>
+                            <h3 class="font-bold text-rose-900 text-lg mb-4 font-serif-title relative z-10">El punto crítico: Donde las políticas se cruzan</h3>
+                            
+                            <p class="text-xs text-rose-800 mb-4 relative z-10 leading-relaxed">
+                                La <strong>Ley 1670 prohíbe al BCB dar crédito al sector público</strong> (Arts. 22-23), salvo emergencias. Sin embargo, en déficits pasados, leyes de presupuesto autorizaron créditos (saltando la Ley 1670).
+                            </p>
+                            
+                            <div class="bg-white/80 backdrop-blur p-4 rounded-xl border border-rose-100 text-xs text-slate-700 relative z-10 flex items-start gap-3 shadow-sm">
+                                <i data-lucide="trending-down" class="w-6 h-6 text-rose-600 shrink-0 mt-1"></i>
+                                <div class="leading-relaxed">
+                                    <strong>La Lección Económica:</strong> Cuando el BCB financia al Estado con "dinero nuevo" (emisión), aumenta el dinero sin aumentar producción = Presión inflacionaria y cambiaria. 
+                                    <br><br>
+                                    <span class="bg-rose-100 text-rose-800 px-2 py-1 rounded inline-block mt-1 font-medium">Contexto 2026:</span> Programa Monetario 2026 del BCB restringe financiamiento al gasto público por emisión, para bajar inflación y transitar a metas.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-4 bg-slate-800 text-white rounded-xl text-sm text-center shadow-md">
+                            <strong>Conclusión:</strong> El presupuesto define el gasto, los impuestos proveen el recurso, la moneda garantiza su valor. El desorden en uno, afecta a todos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Controles inferiores -->
+    <footer class="w-full h-14 bg-white border-t border-slate-200 px-4 md:px-8 flex items-center justify-between z-40 shrink-0 shadow-sm">
+        <button onclick="prevSlide()" class="px-4 py-2 bg-slate-50 border border-slate-200 rounded text-sm font-medium text-slate-600 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 transition-colors shadow-sm flex items-center gap-2 disabled:opacity-50" id="btn-prev">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Anterior
+        </button>
+        
+        <div class="text-[10px] text-slate-400 hidden sm:block font-mono">
+            Navegue con ← → o Espacio. <br>
+            <span class="text-rose-500">Mueva el ratón para usar el Puntero Láser</span>
+        </div>
+
+        <button onclick="nextSlide()" class="px-4 py-2 bg-teal-600 text-white rounded text-sm font-medium hover:bg-teal-700 transition-colors shadow-sm flex items-center gap-2 disabled:opacity-50" id="btn-next">
+            Siguiente <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+    </footer>
+
+    <script>
+        // Iniciar Iconos
+        lucide.createIcons();
+
+        // Láser Pointer Logic
+        const laser = document.getElementById('laser-pointer');
+        const presentationZone = document.getElementById('presentation-stage');
+
+        // Activamos láser si el mouse está en la zona de presentación
+        document.addEventListener('mousemove', (e) => {
+            const rect = presentationZone.getBoundingClientRect();
+            if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                laser.style.opacity = '1';
+                laser.style.left = e.clientX + 'px';
+                laser.style.top = e.clientY + 'px';
+            } else {
+                laser.style.opacity = '0';
+            }
+        });
+
+        // Lógica de Slides
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        const progressBar = document.getElementById('progress-bar');
+        const slideCounter = document.getElementById('slide-counter');
+        const topSlideTitle = document.getElementById('top-slide-title');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        function initPresentation() {
+            updateUI();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide++;
+                slides[currentSlide].classList.add('active');
+                updateUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide--;
+                slides[currentSlide].classList.add('active');
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const progress = (currentSlide / (totalSlides - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+            slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+            const activeTitle = slides[currentSlide].getAttribute('data-title');
+            topSlideTitle.textContent = activeTitle || '';
+
+            btnPrev.disabled = currentSlide === 0;
+            btnNext.disabled = currentSlide === totalSlides - 1;
+            
+            const scrollArea = slides[currentSlide].querySelector('.slide-scroll');
+            if(scrollArea) scrollArea.scrollTop = 0;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+        });
+
+        function toggleFullscreen() {
+            const icon = document.getElementById('fullscreen-icon');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+                icon.setAttribute('data-lucide', 'minimize');
+            } else {
+                document.exitFullscreen();
+                icon.setAttribute('data-lucide', 'maximize');
+            }
+            lucide.createIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', initPresentation);
+    </script>
+</body>
+</html>
